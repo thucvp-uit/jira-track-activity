@@ -151,7 +151,6 @@ func getJobNumber(ticket string) (string, string) {
 	}
 
 	url := fmt.Sprintf("%v/rest/api/latest/issue/%v", jiraURL, ticket)
-	token := os.Getenv("JIRA_TOKEN")
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		log.Fatalln(err)
