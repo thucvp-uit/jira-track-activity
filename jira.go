@@ -110,15 +110,12 @@ func validateData(userName string) error {
 	if len(topixFieldName) == 0 {
 		return errors.New("topix field name can't be empty")
 	}
-
 	if len(token) == 0 {
 		return errors.New("jira token can't be empty")
 	}
-
 	if len(excludeConfluence) == 0 {
 		return errors.New("exclude confluence can't be empty")
 	}
-
 	if len(jiraURL) == 0 {
 		return errors.New("jira URL can't be empty")
 	}
@@ -139,9 +136,13 @@ func printOutput(ticket string, topixNumber string, jobNumber string, entries []
 	fmt.Printf("Topix number: %v\t Job number: %v\n", topixNumber, jobNumber)
 	for _, entry := range entries {
 		fmt.Println("----------------------------------------------------------------")
-		fmt.Println(html2text.HTML2Text(entry.Title))
+		title := html2text.HTML2Text(entry.Title)
+		content := html2text.HTML2Text(entry.Content)
+		title = strings.ReplaceAll(title, fmt.Sprintf("%v/secure/ViewProfile.jspa?name=", jiraURL), "")
+		content = strings.ReplaceAll(content, fmt.Sprintf("%v/secure/ViewProfile.jspa?name=", jiraURL), "")
+		fmt.Println(title)
 		fmt.Println("----------------------------------------------------------------")
-		fmt.Println(html2text.HTML2Text(entry.Content))
+		fmt.Println(content)
 	}
 }
 
